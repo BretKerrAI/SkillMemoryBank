@@ -20,7 +20,7 @@
 | Metric | Result |
 |---|---|
 | **Durable-fact retention** | **0 / 3 → 3 / 3** (**+1.0** pass-rate delta, same fixed input) |
-| **Granite vs. heuristic** | **Same 3/3 pass rate, harder compression** — 0.618 vs 0.775 (extracts signal, drops more noise) |
+| **Granite vs. heuristic** | **Same 3/3 pass rate** — a general open-source model matches the hand-tuned heuristic on the same input, with no bespoke extraction rules |
 | **Live now** | Live demo + Market Validation section at **contextjamming.com/SkillMemoryBank** |
 
 *Measured by `evals/run.py` across three cases — a decision, a constraint, and a procedure each buried under chit-chat — within a fixed 240-char retrieval budget. Granite 4.1, temperature 0, reproducible. Full breakdown in `benchmark.json`.*
@@ -39,7 +39,7 @@ The reference stack shown today — Strategy Scout on DeepAgents and LangGraph �
 A skill that compresses stale memory into a strict, governed template — **procedures, constraints, decisions** — and drops the chit-chat. The compression runs **locally on IBM Granite 4.1** via Ollama: open source, Apache 2.0, no data egress, marginal cost near zero. Frontier models are reserved only for the low-volume, quality-critical distillation and the eval judge. Temperature 0 keeps it deterministic and auditable — a requirement for a reproducible before/after metric.
 
 ### 0:55–1:15 — The results
-On the same fixed input, durable-fact retention went from **0 out of 3 to 3 out of 3 — a plus-one-point delta**. And we kept ourselves honest: the committed baseline used a deterministic heuristic, so flipping the engine to Granite is a real in-event improvement. Granite holds the same perfect pass rate while compressing **harder — 62% smaller versus 78%** — extracting the signal and dropping more noise. We also dogfooded it on this very session, and validated the market gap with an independent Gemini deep-research pass.
+On the same fixed input, durable-fact retention went from **0 out of 3 to 3 out of 3 — a plus-one-point delta**. And we kept ourselves honest: the committed baseline already ran a deterministic heuristic that passed 3 of 3, so we didn't manufacture the win at the finish line. The in-event step was wiring in **Granite** — and a general, open-source model matches that hand-tuned heuristic's perfect retention on the same input, with no bespoke extraction rules. That's the real result: it generalizes. We also dogfooded it on this very session, and validated the market gap with an independent Gemini deep-research pass.
 
 ### 1:15–1:30 — The close
 So: a governed, local-first memory layer that's measurably better, fully open source, and already running. The model is replaceable — the **governed memory substrate compounds**. The live demo and market validation are up right now at **contextjamming.com/SkillMemoryBank**. Thank you.
