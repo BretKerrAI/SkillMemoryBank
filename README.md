@@ -57,8 +57,11 @@ DECISIONS:
 | `deterministic` | Pure-function heuristic — extract durable lines, drop chit-chat | **committed baseline** |
 | `granite` | Same text routed through `granite4.1:8b` | **in-event improvement** |
 
-The committed baseline uses the deterministic heuristic (no model). The scored
-in-event delta is flipping the engine to `granite` and re-running the eval.
+The committed baseline uses the deterministic heuristic (no model); the in-event
+change flips the engine to `granite` and re-runs the eval. Granite holds the same
+**3/3** retention as the hand-tuned heuristic on the same fixed input — so the
+headline **+1.0** below is the skill-vs-no-skill delta (0/3 → 3/3), not a
+deterministic-to-Granite pass-rate jump (both engines already pass 3/3).
 
 ## Quickstart
 
