@@ -1,0 +1,30 @@
+{
+  "name": "skill-memory-bank-evals",
+  "description": "With-skill vs without-skill memory-retention eval. An agent has a fixed retrieval budget (chars). Without SkillMemoryBank, stale memory is passed raw and truncated to fit, so durable facts buried under chit-chat fall off the end. With SkillMemoryBank, memory is compressed to durable procedures/constraints/decisions first, so the fact survives within budget. A case passes when every expected keyword survives in the retrieval window.",
+  "retrieval_budget_chars": 240,
+  "scoring": "all_keywords_present_case_insensitive",
+  "arms": {
+    "without_skill": "engine=none (raw memory, truncated to budget)",
+    "with_skill": "engine=deterministic at baseline; engine=granite is the in-event leg"
+  },
+  "cases": [
+    {
+      "id": "case-1-decision-buried",
+      "description": "A durable architecture DECISION buried after a wall of standup chit-chat.",
+      "stale_memory": "Hi team! Hope everyone had a wonderful weekend out there in the sunshine. Quick hellos before we dive in for real this morning. Sarah, how was the lake house trip, did the kayak survive? Marcus, did the new puppy finally settle in okay overnight? Friendly reminder that the espresso machine on floor three got fixed again, so rejoice. Anyway, enough small talk for one whole morning, let us get on with the actual standup agenda please.\nDECISION: We will use PostgreSQL instead of MongoDB for the user store because we need ACID transactions for billing.",
+      "expected_keywords": ["PostgreSQL", "ACID"]
+    },
+    {
+      "id": "case-2-constraint-buried",
+      "description": "A hard CONSTRAINT (rate limit) buried under social filler.",
+      "stale_memory": "Morning all, what great energy in the room today, honestly love it. Before the real stuff, a big shout out to the design crew for the lovely new mockups, they genuinely look fantastic and everyone agrees. Also the offsite group photos are finally up on the shared drive if you fancy a laugh at my hair. Okay, deep breath everybody, here comes the part that actually matters for the integration work today.\nCONSTRAINT: The API rate limit is 100 requests per minute and you must never exceed it or our key gets banned.",
+      "expected_keywords": ["100", "rate limit", "never"]
+    },
+    {
+      "id": "case-3-procedure-buried",
+      "description": "A reusable deploy PROCEDURE buried under housekeeping announcements.",
+      "stale_memory": "Hey everyone, hope the commute in was painless for a change this week. Quick housekeeping bits first: lunch is catered today with plenty of veggie options included for the team, and the building fire drill got moved to sometime next week instead. Huge thanks to all of you who filled out the culture survey, the response rate was genuinely awesome this round. Right, switching gears completely to the actual release checklist now.\nPROCEDURE: To deploy, first run the database migrations, then set DATABASE_URL, then run npm start; do not skip the migration step.",
+      "expected_keywords": ["migrations", "DATABASE_URL"]
+    }
+  ]
+}
