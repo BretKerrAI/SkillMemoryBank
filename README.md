@@ -15,6 +15,21 @@ context budget, so it gets truncated — and the durable fact you actually neede
 (the architecture decision, the rate limit, the deploy procedure) is the part
 that falls off the end, buried under greetings and one-off chatter.
 
+## The gap (what the reference architecture misses)
+
+Red Hat's reference agent stack — Strategy Scout, built on DeepAgents / LangGraph
+— gives each sub-agent an **isolated context window** per session. That's
+deliberate: it eliminates memory bloat *within* a run. But nothing persists
+*across* sessions. Every sub-agent re-fetches and re-derives from scratch the
+next run, and the orchestrator's prioritization schema resets when the session
+ends — the "Sarah" persona has to re-explain her constraints every single time.
+
+SkillMemoryBank is the **cross-session persistence layer that stack is missing**.
+"Loops, not prompts": it carries domain knowledge — and the *prioritization
+schema* — forward across sessions. It doesn't just remember *what* Sarah did; it
+remembers *how Sarah decided*. Browser-local, no egress, auditable, and open
+source (Apache 2.0) on IBM Granite — not a proprietary, all-Gemini path.
+
 ## The approach
 
 A **hybrid local + frontier** architecture. The high-volume, privacy-sensitive
@@ -64,12 +79,21 @@ python evals/run.py --engine granite # in-event leg
 No API key and no network egress are required for the deterministic baseline or
 the Granite leg — both run locally.
 
-## Results (committed baseline)
+## Results
 
-`evals/run.py` measures keyword retention within a fixed retrieval budget across
-3 cases where a durable fact is buried under chit-chat. Live numbers land in
-[`benchmark.json`](benchmark.json); the baseline shows the skill (deterministic
-compression) recovering facts the no-skill arm loses to truncation.
+`evals/run.py` measures durable-fact retention within a fixed retrieval budget
+across 3 cases where a decision, a constraint, and a procedure are each buried
+under chit-chat. **Granite 4.1** compression (`granite4.1:8b`, temperature 0)
+vs. no skill, on the same fixed input:
+
+| Arm | Pass rate |
+|-----|-----------|
+| Without skill (raw memory, truncated to budget) | **0 / 3** (0.0) |
+| With skill (Granite 4.1 compression) | **3 / 3** (1.0) |
+| **Delta** | **+1.0** |
+
+Average compression **0.618** (~62% smaller) with every durable fact preserved.
+Full per-case breakdown in [`benchmark.json`](benchmark.json).
 
 ## Layout
 

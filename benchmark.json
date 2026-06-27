@@ -1,8 +1,8 @@
 {
-  "generated_at": "2026-06-27T11:49:58",
+  "generated_at": "2026-06-27T12:16:38",
   "retrieval_budget_chars": 240,
-  "with_skill_engine": "deterministic",
-  "model": null,
+  "with_skill_engine": "granite",
+  "model": "granite4.1:8b",
   "arms": {
     "without_skill": {
       "pass": 0,
@@ -16,25 +16,25 @@
     }
   },
   "delta_pass_rate": 1.0,
-  "avg_compression_ratio": 0.775,
+  "avg_compression_ratio": 0.618,
   "cases": [
     {
       "id": "case-1-decision-buried",
       "without_skill_pass": false,
       "with_skill_pass": true,
-      "compression_ratio": 0.783
+      "compression_ratio": 0.599
     },
     {
       "id": "case-2-constraint-buried",
       "without_skill_pass": false,
       "with_skill_pass": true,
-      "compression_ratio": 0.781
+      "compression_ratio": 0.669
     },
     {
       "id": "case-3-procedure-buried",
       "without_skill_pass": false,
       "with_skill_pass": true,
-      "compression_ratio": 0.762
+      "compression_ratio": 0.587
     }
   ]
 }
